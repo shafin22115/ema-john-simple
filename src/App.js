@@ -3,7 +3,7 @@
 
 import Header from "./component/Header.js/Header";
 import Shop from "./component/Header.js/shop/Shop"
-import React from "react";
+import React, { createContext, useState } from "react";
 import {
   BrowserRouter as Router,
   Switch,
@@ -14,14 +14,23 @@ import Review from "./component/Review/Review";
 import Manage from "./component/Review/Inventory/Manage";
 import Notfound from "./NotFound/Notfound";
 import ProductDetail from "./component/productDetail/ProductDetail";
+import Login from "./component/Login/Login";
+import Shipment from "./component/Shipment/Shipment";
+import PrivateRoute from "./component/PrivateRoute/PrivateRoute";
 
+export const UserContext = createContext();
 
 function App() {
+
+  const [loggedInUser, setLoggedInUser] = useState({})
+
   return (
-    <div>
+    <UserContext.Provider value = {[loggedInUser,setLoggedInUser]}>
+      <h3>Email: {loggedInUser.email}</h3>
+      
+      <Router>
       <Header>    
       </Header>
-      <Router>
         <Switch>
           <Route path="/shop">
           <Shop> </Shop>
@@ -29,9 +38,15 @@ function App() {
           <Route path="/review">
             <Review></Review>
           </Route>
-          <Route path="/manage">
+          <PrivateRoute path="/manage">
             <Manage></Manage>
+          </PrivateRoute>
+          <Route path="/login">
+            <Login></Login>
           </Route>
+          <PrivateRoute path="/shipment">
+            <Shipment></Shipment>
+          </PrivateRoute>
           <Route exact path="/">
           <Shop></Shop>
           </Route>
@@ -46,7 +61,7 @@ function App() {
       </Router>
       
       
-    </div>
+    </UserContext.Provider>
   );
 }
 

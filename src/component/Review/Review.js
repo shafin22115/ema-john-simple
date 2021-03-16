@@ -4,6 +4,7 @@ import { getDatabaseCart, removeFromDatabaseCart, clearLocalShoppingCart } from 
 import ReviewItem from '../ReviewItem/ReviewItem';
 import Cart from '../cart/Cart'
 import happyImg from '../../images/giphy.gif'
+import { useHistory } from 'react-router';
 const Review = () => {
     const [cart, setCart] = useState([])
     const [orderP, setOrderdP] = useState(false)
@@ -12,10 +13,10 @@ const Review = () => {
     setCart(newCart)
     removeFromDatabaseCart(productKeys)
     }
-    const handlePlaceOrder = () => {
-        setCart([])
-        setOrderdP(true)
-        clearLocalShoppingCart()
+
+    const history = useHistory()
+    const handleProcced = () => {
+        history.push('/shipment');
     }
 
     useEffect(()=> {
@@ -46,7 +47,7 @@ const Review = () => {
           </div>
           <div className="card-container">
               <Cart  cart={cart}>
-                  <button onClick={handlePlaceOrder} className="main-btn">Place Order</button>
+                  <button onClick={handleProcced} className="main-btn">procced checkout</button>
               </Cart>
           </div>
         </div>
